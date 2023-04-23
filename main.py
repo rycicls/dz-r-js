@@ -13,7 +13,7 @@ class Card:
         self.symbol = cardSymbol
         self.number = cardNumber
 
-players_num()
+player_count = players_num()
 
 class Player:
     def __init__(self,name):
