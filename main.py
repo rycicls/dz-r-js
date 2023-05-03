@@ -26,17 +26,25 @@ class Deck:
     def make_deck(self):
         for symbol in symbols:
             for number in numbers:
-                self.deck_list.append(Card(symbol, number))
-        return self.deck_list(symbol,number) # makes deck but doesn't show cards
+                self.deck_list.append(Card(symbol,number))
+        # return self.deck_list()
         
     
     def shufel_deck(self):
-        self.shufeled_deck = random.shuffle(self.deck_list)
-        return self.shufeled_deck #returns none
+        random.shuffle(self.deck_list)
+        return self.deck_list #returns none
 
     def deal_decks(self):
-        self.player1_deck = [] #haven't started haven't figured out yet what to do
+        self.players = []
+        for player in player_count:
+            self.players.append(player_count)
+            player += 1
+
+    def print_deck(self,deck):        
+        for card in deck:
+            print(f'symbol: {card.symbol}')
+            print(f'value: {card.number}')
 
 sd = Deck()
 print(f"deck: {sd.make_deck()}") #testing
-print(f"shuffeled deck: {sd.shufel_deck()}")
+print(f"shuffeled deck: {sd.print_deck(sd.shufel_deck())}")
