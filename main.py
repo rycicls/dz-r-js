@@ -16,8 +16,12 @@ class Card:
 player_count = players_num() #gonna be visual curently asks how many players with cmd
 
 class Player:
-    def __init__(self,name):
-        self.name = name
+    def __init__(self,player_name):
+        self.player_name = player_name
+        self.player_cards = []
+        for c in range(sd.cards_per_deck):
+            self.player_cards.append(sd.shufel_deck(c))
+            c += 1
 
 class Deck:
     def __init__(self):
@@ -35,16 +39,21 @@ class Deck:
         return self.deck_list #returns none
 
     def deal_decks(self):
-        self.players = []
-        for player in player_count:
-            self.players.append(player_count)
-            player += 1
+        self.cards_per_deck = 52 / player_count
 
     def print_deck(self,deck):        
         for card in deck:
             print(f'symbol: {card.symbol}')
             print(f'value: {card.number}')
 
+class Game:
+    def players_names(self):
+        self.players = []
+        for i in range(player_count):
+            self.players.append(Player(i))
+
+pl = Player()
 sd = Deck()
+print(f"player name list: {pl.give_names()}")
 print(f"deck: {sd.make_deck()}") #testing
 print(f"shuffeled deck: {sd.print_deck(sd.shufel_deck())}")
