@@ -18,10 +18,7 @@ player_count = players_num() #gonna be visual curently asks how many players wit
 class Player:
     def __init__(self,player_name):
         self.player_name = player_name
-        self.player_cards = []
-        for c in range(sd.cards_per_deck):
-            self.player_cards.append(sd.shufel_deck(c))
-            c += 1
+        self.card_count = 52 / player_count
 
 class Deck:
     def __init__(self):
@@ -38,13 +35,17 @@ class Deck:
         random.shuffle(self.deck_list)
         return self.deck_list #returns none
 
-    def deal_decks(self):
-        self.cards_per_deck = 52 / player_count
-
     def print_deck(self,deck):        
         for card in deck:
             print(f'symbol: {card.symbol}')
             print(f'value: {card.number}')
+    
+    def player_decks(self):
+        self.player_cards = []
+        for players in player_count:
+            for c in range(self.cards_per_deck):
+                self.player_cards.append(sd.shufel_deck(c))
+                c += 1
 
 class Game:
     def players_names(self):
@@ -52,8 +53,28 @@ class Game:
         for i in range(player_count):
             self.players.append(Player(i))
 
-pl = Player()
+    def move(self):
+        self.curr_player = 0
+        self.next_player = self.curr_player + 1
+        print(f'to make move type a')
+        move_input = input()
+        move_input = str(move_input)
+        if move_input == 'a':
+            # if sd.player_cards[0]
+            pass
+
+        if self.curr_player < self.player_count - 1:
+            self.curr_player = self.curr_player + 1
+        else:
+            self.curr_player = 0
+
+        if self.next_player < self.player_count - 1:
+            self.next_player = self.next_player + 1
+        else:
+            self.next_player = 0
+
+gm = Game()
+# pl = Player()
 sd = Deck()
-print(f"player name list: {pl.give_names()}")
-print(f"deck: {sd.make_deck()}") #testing
 print(f"shuffeled deck: {sd.print_deck(sd.shufel_deck())}")
+print(f"player name list: {gm.players_names()}")
