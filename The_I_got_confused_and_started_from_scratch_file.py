@@ -11,8 +11,8 @@ def players_num(): #plan to make visual with pysimpleGUI
     print("how many players: ")
     player_count_input = input()
     player_count_input = int(player_count_input)
-    if player_count_input > 52:
-        print(f'too many players. Need to be less than 52')
+    if player_count_input > 8:
+        print(f'too many players. Need to be less than 8')
         exit
     print(f"entered players: {player_count_input}")
     return player_count_input
@@ -80,39 +80,43 @@ class Game:
     def play(self):
         self.deal_cards()
         self.curr_player = 0
+        self.next_player = self.curr_player + 1
         print(f'player count: {player_count}')
-        for j in range(random.randint(10000000000000,9999999999999999999)):
-            self.next_player = self.curr_player + 1
+        for turn in range(random.randint(10000000000000,9999999999999999999)):
+            if self.players[self.curr_player].player_deck == False:
+                self.players.remove(self.curr_player)
+            if self.players[self.next_player].player_deck == False:
+                self.players.remove(self.next_player)
+            if len(self.players) == 1:
+                print(f'the winner: {self.players}')
+                break
+            if self.next_player >= player_count:
+                self.next_player = 0
+            if self.curr_player >= player_count:
+                self.curr_player = 0
             print(f'next ply: {self.next_player}')
             print(f'curr ply: {self.curr_player}')
-            if self.next_player > player_count:
-                self.next_player = 0
-            if self.curr_player > player_count:
-                self.curr_player = 0
             print(f'move:')
             played_cards = []
             played_cards.append(self.players[self.curr_player].player_deck[0])
-            # print(self.players[self.curr_player].player_deck)
             Player.remove_card(self.players[self.curr_player],self.players[self.curr_player].player_deck[0])
             played_cards.append(self.players[self.next_player].player_deck[0])
             Player.remove_card(self.players[self.next_player],self.players[self.next_player].player_deck[0])
+            if isinstance(played_cards[0], list):
+                played_cards[0] = played_cards[0][0]
+            if isinstance(played_cards[1], list):
+                played_cards[1] = played_cards[1][0]
             if played_cards[0].number > played_cards[1].number:
-                Player.add_card(self.players[self.curr_player],played_cards)
-                # self.players[self.curr_player].player_deck.append(played_cards)
+                self.players[self.curr_player].player_deck.append(played_cards)
                 print(f'player {self.players[self.curr_player].player_name} won')
-                # break
-            elif played_cards[0].number > played_cards[1].number:
-                Player.add_card(self.players[self.next_player],played_cards)
-                # self.players[self.next_player].player_deck.append(played_cards)
+            elif played_cards[0].number < played_cards[1].number:
+                self.players[self.next_player].player_deck.append(played_cards)
                 print(f'player {self.players[self.next_player].player_name} won')
-                # break
             elif played_cards[0].number == played_cards[1].number:
                 print(f'both cards are of equal value')
                 continue
-            
-            self.curr_player += 1
-            # self.next_player += 1
-            j += 1
+            self.curr_player += 1            
+            self.next_player += 1
      
 game = Game()
 game.play()
